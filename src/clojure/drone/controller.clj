@@ -5,10 +5,13 @@
             [clojure.tools.reader.edn :refer [read-string]]
             [clj-drone.core :as d]))
 
-(defn process-command! [{:keys [args]}]
+(defn process-command! [{:keys [subject args]}]
   (prn "Drone command" args)
   (try
-    (prn "Result" (apply d/drone args))
+    (prn "Result"
+         (case subject
+           :drone (apply d/drone args)
+           :do-for (apply d/drone-do-for args)))
     (catch Exception e
       (prn "Error"))))
 
